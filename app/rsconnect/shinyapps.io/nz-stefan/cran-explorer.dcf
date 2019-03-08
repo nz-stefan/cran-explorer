@@ -1,0 +1,12 @@
+name: cran-explorer
+title: cran-explorer
+username:
+account: nz-stefan
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 675522
+bundleId: 1922026
+url: https://nz-stefan.shinyapps.io/cran-explorer/
+when: 1551954932.6372
+asMultiple: FALSE
+asStatic: FALSE

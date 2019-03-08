@@ -1,0 +1,41 @@
+/** Material design cards ****************************************************/
+
+.card {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16), 0 2px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.card {
+  margin-top: 10px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  background-clip: padding-box
+}
+.card .card-content {
+  padding: 16px;
+  border-radius: 0 0 2px 2px;
+  background-clip: padding-box;
+  box-sizing: border-box;
+}
+.card .card-content p {
+  margin: 0;
+  color: inherit;
+}
+
+
+/** Appearance of form labels ************************************************/
+
+.control-label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 400;
+    color: gray;
+    font-size: 0.9em;
+}
+
+
+/** Appearance of data tables ************************************************/
+
+.dataTables_paginate {
+  font-size: 0.85em;
+}
