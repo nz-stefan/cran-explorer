@@ -564,6 +564,12 @@ Version: 0.4.5
 Hash: 97d801114efa2f65975ea9a034cf63a4
 Requires: htmltools, jsonlite, scales, shiny
 
+Package: shinycssloaders
+Source: CRAN
+Version: 0.2.0
+Hash: a6b8033e66d69998a2b54059e6d53476
+Requires: digest, glue, shiny
+
 Package: snakecase
 Source: CRAN
 Version: 0.9.2
