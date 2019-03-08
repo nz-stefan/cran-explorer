@@ -14,16 +14,16 @@ server <- function(input, output, session) {
 
   # Data reactives ----------------------------------------------------------
 
-  # d_pkg_dependencies <- reactive(readr::read_csv(S3_PKG_DEPENDENCIES))
-  d_pkg_dependencies <- reactive(readr::read_csv("data/pkg_dependencies.csv"))
+  d_pkg_dependencies <- reactive(readr::read_csv(S3_PKG_DEPENDENCIES))
+  # d_pkg_dependencies <- reactive(readr::read_csv("data/pkg_dependencies.csv"))
   
-  # d_pkg_releases <- reactive(readr::read_csv(S3_PKG_RELEASES))
-  d_pkg_releases <- reactive(readr::read_csv("data/pkg_releases.csv"))
+  d_pkg_releases <- reactive(readr::read_csv(S3_PKG_RELEASES))
+  # d_pkg_releases <- reactive(readr::read_csv("data/pkg_releases.csv"))
   
   d_pkg_details <- reactive(readRDS("data/pkg_details.rds"))
   
-  # l_tile_summary <- reactive(readRDS(url(S3_TILE_SUMMARIES)))
-  l_tile_summary <- reactive(readRDS("data/tile_summary.rds"))
+  l_tile_summary <- reactive(readRDS(url(S3_TILE_SUMMARIES)))
+  # l_tile_summary <- reactive(readRDS("data/tile_summary.rds"))
   
   
 
