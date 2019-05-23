@@ -21,12 +21,12 @@ graph_network_ui <- function(id) {
   material_card(
     fluidRow(
       column(
-        width = 4,
+        width = 3,
         DT::DTOutput(ns("package_table")),
         style = "font-size: 8pt"
       ),
       column(
-        width = 8,
+        width = 6,
         fluidRow(
           column(
             width = 6,
@@ -59,17 +59,31 @@ graph_network_ui <- function(id) {
               style = "margin-top: -180px"
             )
           )
+        ),
+        style = "border-left: solid silver 1px; border-right: solid silver 1px"
+      ),
+      column(
+        width = 3,
+        fluidRow(
+          column(
+            width = 12,
+            uiOutput(ns("package_info"))
+          ),
+          column(
+            width = 12,
+            highchartOutput(ns("plot_pkg_downloads"), height = 200) %>% withSpinner()
+          )
         )
-      ),
-      column(
-        width = 12,
-        uiOutput(ns("package_details"))
-      ),
-      column(
-        width = 12,
-        DT::DTOutput(ns("version_table")),
-        style = "font-size: 8pt"
       )
+      # column(
+      #   width = 12,
+      #   uiOutput(ns("package_details"))
+      # ),
+      # column(
+      #   width = 12,
+      #   DT::DTOutput(ns("version_table")),
+      #   style = "font-size: 8pt"
+      # )
       
     )
   )
@@ -260,6 +274,91 @@ graph_network <- function(input, output, session, d_pkg_dependencies, d_pkg_deta
       DT::selectPage(which(input$package_table_rows_all == row_index) %/% ROWS_PER_PAGE + 1)
   })
   
+
+  # Package downloads plot --------------------------------------------------
+
+  d_pkg_downloads <- reactive({
+    req(center_node())
+    
+    # construct URL to request package downloads from cranlogs API
+    cranlogs_url <- sprintf("http://cranlogs.r-pkg.org/downloads/daily/2012-01-01:%s/%s", Sys.Date(), center_node())
+    
+    # fetch downloads from cranlogs API
+    api_response <- httr::GET(cranlogs_url)
+    l_downloads <- content(api_response)[[1]]$downloads
+
+    # early exit if no download information available (e.g. for "stats4" package)    
+    if (is.null(l_downloads)) return(NULL)
+    
+    # parse response into dataframe
+    l_downloads %>% 
+      purrr::map_df(~.) %>% 
+      mutate(date_month = lubridate::floor_date(as.Date(day), unit = "month")) %>% 
+      group_by(date_month) %>% 
+      summarise(downloads = sum(downloads))
+  })
+  
+  output$plot_pkg_downloads <- renderHighchart({
+    req(d_pkg_downloads())
+    
+    d_pkg_downloads() %>% 
+      hchart("spline", hcaes(x = date_month, y = downloads)) %>% 
+      hc_title(
+        text = "Monthly downloads",
+        style = list("font-size" = "9pt")
+      ) %>% 
+      hc_xAxis(title = list(text = "")) %>% 
+      hc_yAxis(title = list(text = "")) %>% 
+      hc_add_theme(hc_theme_538())
+  })
+  
+
+  # Package info box --------------------------------------------------------
+
+  output$package_info <- renderUI({
+    req(selected_package(), d_pkg_downloads())
+    
+    current_version <- selected_package()$versions %>% filter(published == max(published)) %>% pull(version)
+    last_update <- max(selected_package()$versions$published) %>% as.Date()
+    first_published <- min(selected_package()$versions$published) %>% as.Date()
+    num_updates <- nrow(selected_package()$versions) %>% format(big.mark = ",")
+    num_downloads <- sum(d_pkg_downloads()$downloads) %>% format(big.mark = ",")  
+    
+    tagList(
+      h4(selected_package()$details$package),
+      h5(selected_package()$details$title),
+      h5("Version", current_version),
+      p("Published: ", tags$em(first_published), style = "font-size: 9pt"),
+      p("Last update: ", tags$em(last_update), style = "font-size: 9pt"),
+      p(tags$em(num_updates), "updates", style = "font-size: 9pt"),
+      p(tags$em(num_downloads), "downloads since 2012", style = "font-size: 9pt"),
+      div(
+        actionBttn(ns("show_pkg_details"), label = "Details", size = "xs"),
+        style = "margin-top: 15px;"
+      ),
+      hr()
+    )
+  })
+  
+  observeEvent(input$show_pkg_details, {
+    sendSweetAlert(
+      session = session,
+      title = NULL,
+      text = fluidRow(
+        column(
+          width = 12,
+          uiOutput(ns("package_details"))
+        ),
+        column(
+          width = 12,
+          DT::DTOutput(ns("version_table")),
+          style = "font-size: 8pt"
+        ),
+        style = "margin-top: 20px"
+      ),
+      html = TRUE
+    )
+  })
   
   # Package details ---------------------------------------------------------
 
@@ -291,7 +390,7 @@ graph_network <- function(input, output, session, d_pkg_dependencies, d_pkg_deta
       select(-package) %>% 
       arrange(desc(published)) %>% 
       DT::datatable(
-        options = list(pageLength = ROWS_PER_PAGE, responsive = TRUE, dom = "t"),
+        options = list(pageLength = 5, responsive = TRUE, dom = "tp"),
         selection = "single",
         class = "display compact",
         rownames = FALSE
