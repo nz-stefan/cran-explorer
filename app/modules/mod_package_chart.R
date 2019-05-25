@@ -21,7 +21,8 @@ package_chart_ui <- function(id) {
       onStatus = "success", offStatus = "danger",
       value = TRUE, size = "mini"
     ),
-    chart_packages = highchartOutput(ns("chart_packages"), width = "100%", height = "300px") %>% withSpinner()
+    chart_packages = highchartOutput(ns("chart_packages"), width = "100%", height = "300px") %>% 
+      withSpinner(size = 0.5, proxy.height = "300px", type = 6, color = "#FFFFFF")
   )
 }
 

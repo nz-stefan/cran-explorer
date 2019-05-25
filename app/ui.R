@@ -13,9 +13,8 @@ htmlTemplate(
   box_packages_new_year = pretty_value_box_ui("packages-new-year", icon_name = "cubes"),
   box_packages_updated_year = pretty_value_box_ui("packages-updated-year", background_color = "#7ab885", icon_name = "cubes"),
 
-  n_packages = textOutput("n_cran_packages", inline = TRUE),# %>% withSpinner(size = 0.25, proxy.height = "20px"),
-  last_update = textOutput("last_update", inline = TRUE), # %>% withSpinner(size = 0.25, proxy.height = "20px"),
-  
+  header_ui = uiOutput("header_ui") %>% withSpinner(size = 0.5, proxy.height = "50px", type = 6, color = "#FFFFFF"),
+
   package_chart = package_chart_ui("package_chart"),
   
   featured_packages = featured_packages_ui("featured_packages"),

@@ -25,7 +25,8 @@ pretty_value_box_ui <- function(id, background_color = "#e2a267", icon_name = "q
     value = textOutput(ns("value"), inline = TRUE),
     last_days = textOutput(ns("last_days"), inline = TRUE),
     date_range = textOutput(ns("date_range"), inline = TRUE),
-    inline_bar = sparklineOutput(ns("inline_bar"), width = "300px") %>% withSpinner(proxy.height = "50px", size = 0.5)
+    inline_bar = sparklineOutput(ns("inline_bar"), width = "300px") %>% 
+      withSpinner(proxy.height = "50px", size = 0.5, type = 1, color = "#EEEEEE")
   )
 }  
 

@@ -67,24 +67,16 @@ graph_network_ui <- function(id) {
         fluidRow(
           column(
             width = 12,
-            uiOutput(ns("package_info"))
+            uiOutput(ns("package_info")) %>% 
+              withSpinner(type = 6, size = 0.5, proxy.height = "200px")
           ),
           column(
             width = 12,
-            highchartOutput(ns("plot_pkg_downloads"), height = 200) %>% withSpinner()
+            highchartOutput(ns("plot_pkg_downloads"), height = 200) %>% 
+              withSpinner(type = 6, size = 0.5, proxy.height = "200px")
           )
         )
       )
-      # column(
-      #   width = 12,
-      #   uiOutput(ns("package_details"))
-      # ),
-      # column(
-      #   width = 12,
-      #   DT::DTOutput(ns("version_table")),
-      #   style = "font-size: 8pt"
-      # )
-      
     )
   )
 }
