@@ -335,7 +335,7 @@ graph_network <- function(input, output, session, d_pkg_dependencies, d_pkg_deta
   observeEvent(input$show_pkg_details, {
     sendSweetAlert(
       session = session,
-      title = NULL,
+      title = center_node(),
       text = fluidRow(
         column(
           width = 12,
@@ -346,8 +346,8 @@ graph_network <- function(input, output, session, d_pkg_dependencies, d_pkg_deta
           width = 12,
           DT::DTOutput(ns("version_table")),
           style = "font-size: 8pt"
-        ),
-        style = "margin-top: 50px"
+        )
+        # style = "margin-top: 50px"
       ),
       html = TRUE
     )
@@ -368,8 +368,6 @@ graph_network <- function(input, output, session, d_pkg_dependencies, d_pkg_deta
     req(selected_package())
     
     tagList(
-      hr(),
-      h4(selected_package()$details$package),
       h5(selected_package()$details$title),
       p(selected_package()$details$description),
       h5("Publication History", style = "margin-top: 15px")
