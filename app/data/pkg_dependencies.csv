@@ -42565,6 +42565,7 @@ muRL,stringr,*
 muRL,graphics,*
 murphydiagram,NA,NA
 muRty,R,>= 3.1.0
+muRty,clue,*
 muRty,lpSolve,*
 MUS,R,>= 3.4.0
 MUS,stats,*
@@ -49390,8 +49391,8 @@ PKreport,lattice,*
 PKreport,ggplot2,*
 pks,R,>= 3.0.0
 pks,stats,*
-pks,graphics,*
 pks,sets,*
+pks,graphics,*
 pKSEA,R,>= 3.3.0
 pksensi,R,>= 3.1
 pksensi,ggplot2,*
@@ -55711,8 +55712,8 @@ rdatamarket,R,>= 2.10.0
 rdatamarket,zoo,*
 rdatamarket,RCurl,*
 rdatamarket,RJSONIO,*
-rdataretriever,R,>= 3.0.0
-rdataretriever,utils,*
+rdataretriever,R,>= 3.4.0
+rdataretriever,reticulate,>= 1.8
 Rdbi,R,>= 1.2
 Rdbi.PgSQL,R,>= 1.2
 Rdbi.PgSQL,Rdbi,*

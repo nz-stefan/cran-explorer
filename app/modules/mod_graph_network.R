@@ -339,14 +339,15 @@ graph_network <- function(input, output, session, d_pkg_dependencies, d_pkg_deta
       text = fluidRow(
         column(
           width = 12,
-          uiOutput(ns("package_details"))
+          uiOutput(ns("package_details")),
+          style = "font-size: 9pt"
         ),
         column(
           width = 12,
           DT::DTOutput(ns("version_table")),
           style = "font-size: 8pt"
         ),
-        style = "margin-top: 20px"
+        style = "margin-top: 50px"
       ),
       html = TRUE
     )
