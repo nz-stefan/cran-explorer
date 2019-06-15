@@ -26,7 +26,10 @@ pretty_value_box_ui <- function(id, background_color = "#e2a267", icon_name = "q
     last_days = textOutput(ns("last_days"), inline = TRUE),
     date_range = textOutput(ns("date_range"), inline = TRUE),
     inline_bar = sparklineOutput(ns("inline_bar"), width = "300px") %>% 
-      withSpinner(proxy.height = "50px", size = 0.5, type = 1, color = "#EEEEEE")
+      withSpinner(proxy.height = "50px", size = 0.5, type = 1, color = "#EEEEEE"),
+    trend_icon = uiOutput(ns("trend_icon"), inline = TRUE),
+    trend = textOutput(ns("trend"), inline = TRUE),
+    trend_label = textOutput(ns("trend_label"), inline = TRUE)
   )
 }  
 
@@ -35,7 +38,8 @@ pretty_value_box_ui <- function(id, background_color = "#e2a267", icon_name = "q
 # Module server logic -----------------------------------------------------
 
 pretty_value_box <- function(input, output, session, 
-                             title = "-", value = 0, last_days = "-", date_range = "-", inline_bar = 0) {
+                             title = "-", value = 0, last_days = "-", date_range = "-", inline_bar = 0,
+                             trend = 0, trend_icon = "", trend_label = "-") {
   
   ns <- session$ns
   
@@ -45,7 +49,10 @@ pretty_value_box <- function(input, output, session,
     value = value,
     last_days = last_days,
     date_range = date_range,
-    inline_bar = inline_bar
+    inline_bar = inline_bar,
+    trend = trend,
+    trend_icon = trend_icon,
+    trend_label = trend_label
   )
 
 
@@ -72,16 +79,34 @@ pretty_value_box <- function(input, output, session,
     )
   })
   
+  output$trend <- renderText(paste0(box_values$trend, "%"))
+  
+  output$trend_label <- renderText(box_values$trend_label)
+  
+  output$trend_icon <- renderUI({
+    req(box_values$trend)
+    
+    if (as.numeric(box_values$trend) < 0) {
+      icon("arrow-circle-down down fa-inverse")
+    } else {
+      icon("arrow-circle-up up fa-inverse")
+    }
+  })
+  
 
   # return interface to this module
   list(
     values = box_values,
-    set_values = function(title = NULL, value = NULL, last_days = NULL, date_range = NULL, inline_bar = NULL) {
+    set_values = function(title = NULL, value = NULL, last_days = NULL, date_range = NULL, inline_bar = NULL, 
+                          trend_icon = NULL, trend_label = NULL, trend = NULL) {
       if (!is.null(title)) box_values$title = title
       if (!is.null(value)) box_values$value = value
       if (!is.null(last_days)) box_values$last_days = last_days
       if (!is.null(date_range)) box_values$date_range = date_range
       if (!is.null(inline_bar)) box_values$inline_bar = inline_bar
+      if (!is.null(trend_icon)) box_values$trend_icon = trend_icon
+      if (!is.null(trend_label)) box_values$trend_label = trend_label
+      if (!is.null(trend)) box_values$trend = trend
     }
   )
 }
