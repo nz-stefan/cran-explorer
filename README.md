@@ -34,7 +34,7 @@ The development environment of this project is encapsulated in a Docker containe
     ```
     bin/start_rstudio.sh
     ```
-6. Open [http://localhost:8787](http://localhost:8787) in your browser to start a new RStudio session
+6. Open [http://localhost:8788](http://localhost:8788) in your browser to start a new RStudio session
 7. Install R packages required for this app. Type the following instructions into the R session window of RStudio
     ```
     packrat::on()
