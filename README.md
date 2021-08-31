@@ -14,34 +14,32 @@ This web application is written using the [R Shiny](https://shiny.rstudio.com/) 
 The development environment of this project is encapsulated in a Docker container.
 
 1. Install Docker. Follow the instructions on [https://docs.docker.com/install/](https://docs.docker.com/install/)
-2. Make docker run without sudo
-    ```
-    sudo groupadd docker
-    sudo usermod -aG docker $USER
-    ```
-    Log out and log back in so that your group membership is re-evaluated
-3. Clone the GIT repository
+2. Open a console (or a terminal on a Mac). On Windows you can use the excellent Git Bash which comes with the installation of Git. Clone the GIT repository:
     ```
     git clone https://github.com/nz-stefan/cran-explorer.git
     ```
-4. Setup development Docker container
+3. Setup development Docker container:
     ```
     cd cran-explorer
     bin/setup-environment.sh
     ```
-    You should see lots of container build messages
-5. Spin up the container
+    You should see lots of container build messages. Building the container might take a few minutes.
+4. On Linux or Mac spin up the container using:
     ```
     bin/start_rstudio.sh
     ```
-6. Open [http://localhost:8788](http://localhost:8788) in your browser to start a new RStudio session
-7. Install R packages required for this app. Type the following instructions into the R session window of RStudio
+    On Windows run instead:
+    ```
+    bin/start_rstudio_win.sh
+    ```
+5. Open [http://localhost:8788](http://localhost:8788) in your browser to start a new RStudio session
+6. Install the R packages required for this app. Type the following instructions into the R session window of RStudio:
     ```
     packrat::on()
     packrat::restore()
     ```
-    The installation will take a few minutes. The package library will be installed into the `packrat/lib` directory of the project path.
-8. Open the file `app/global.R` and hit the "Run app" button in the toolbar of the script editor (or type `shiny::runApp("app")` in the R session window). The Shiny app should open in a new window. You may need to instruct your browser to not block popup windows for this URL.
+    The installation will take a while (around 30 minutes) as all packages are compiled from source. This will need to be done only once. The package library will be installed into the `packrat/lib` directory of the project path.
+7. Open the file `app/global.R` and hit the "Run app" button in the toolbar of the script editor (or type `shiny::runApp("app")` in the R session window). The Shiny app should open in a new window. You may need to instruct your browser to not block popup windows for this URL.
 
 ## Data
 

@@ -1,0 +1,7 @@
+packrat/lib*/
+packrat/src/*
+app/data/*
+app/data.zip
+.Rhistory
+.bash_history
+.rstudio
